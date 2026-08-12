@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="520" viewBox="0 0 1200 520">
+<rect width="1200" height="520" fill="#f8fafc"/>
+<text x="60" y="62" font-family="Arial, sans-serif" font-size="24" font-weight="700" fill="#0f2744">PUBLIC SHOWCASE ARCHITECTURE</text>
+<text x="60" y="94" font-family="Arial, sans-serif" font-size="16" fill="#52677d">Sanitized engineering view · no client infrastructure or source code</text>
+<g font-family="Arial, sans-serif" font-size="16" fill="#102a43" text-anchor="middle">
+  <rect x="55" y="170" rx="12" width="170" height="90" fill="#eaf2f8" stroke="#9fb3c8"/>
+  <text x="140" y="208" font-weight="700">Linux</text><text x="140" y="232">tracepoints</text>
+  <rect x="265" y="170" rx="12" width="170" height="90" fill="#dceefb" stroke="#829ab1"/>
+  <text x="350" y="208" font-weight="700">eBPF</text><text x="350" y="232">programs</text>
+  <rect x="475" y="170" rx="12" width="170" height="90" fill="#eaf2f8" stroke="#9fb3c8"/>
+  <text x="560" y="208" font-weight="700">BPF</text><text x="560" y="232">ring buffer</text>
+  <rect x="685" y="170" rx="12" width="180" height="90" fill="#dceefb" stroke="#829ab1"/>
+  <text x="775" y="208" font-weight="700">C++17</text><text x="775" y="232">event processor</text>
+  <rect x="905" y="170" rx="12" width="240" height="90" fill="#eaf2f8" stroke="#9fb3c8"/>
+  <text x="1025" y="202" font-weight="700">Filter · classify</text><text x="1025" y="226">rate-limit · deduplicate</text>
+</g>
+<g stroke="#627d98" stroke-width="3" fill="none">
+  <path d="M225 215 H265"/><path d="M435 215 H475"/><path d="M645 215 H685"/><path d="M865 215 H905"/>
+</g>
+<g fill="#627d98">
+  <polygon points="258,209 258,221 266,215"/><polygon points="468,209 468,221 476,215"/>
+  <polygon points="678,209 678,221 686,215"/><polygon points="898,209 898,221 906,215"/>
+</g>
+<g font-family="Arial, sans-serif" font-size="15" fill="#102a43" text-anchor="middle">
+  <rect x="205" y="350" rx="12" width="235" height="92" fill="#edf7ed" stroke="#8fbf8f"/>
+  <text x="322" y="386" font-weight="700">Rotating JSON telemetry</text><text x="322" y="412">+ optional outbound HTTP</text>
+  <rect x="485" y="350" rx="12" width="230" height="92" fill="#fff7e6" stroke="#d4a72c"/>
+  <text x="600" y="386" font-weight="700">Policy safeguards</text><text x="600" y="412">protected processes</text>
+  <rect x="760" y="350" rx="12" width="235" height="92" fill="#fce8e6" stroke="#d18b87"/>
+  <text x="877" y="386" font-weight="700">Controlled response</text><text x="877" y="412">+ audit trail</text>
+</g>
+<path d="M1025 260 C1025 315 875 320 875 350" stroke="#627d98" stroke-width="3" fill="none"/>
+<path d="M875 442 C875 474 600 474 600 442" stroke="#627d98" stroke-width="3" fill="none"/>
+<path d="M600 442 C600 480 322 480 322 442" stroke="#627d98" stroke-width="3" fill="none"/>
+</svg>

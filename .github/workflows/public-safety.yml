@@ -1,0 +1,56 @@
+name: Public Showcase Safety
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  public-safety:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Validate showcase manifest
+        shell: bash
+        run: |
+          set -euo pipefail
+          grep -q '^repository_class: public-showcase$' .osystic/repository.yml
+          grep -q '^visibility: public$' .osystic/repository.yml
+          grep -q 'source_code_included: false' .osystic/repository.yml
+          grep -q 'contact_information_included: false' .osystic/repository.yml
+
+      - name: Scan for accidental contact details or secrets
+        shell: bash
+        run: |
+          set -euo pipefail
+          files=$(find . -type f \
+            ! -path './.git/*' \
+            ! -name '*.pdf' \
+            ! -name '*.png' \
+            ! -name '*.jpg' \
+            ! -name '*.jpeg' \
+            ! -name '*.gif' \
+            ! -name '*.svg')
+
+          if grep -EIn --binary-files=without-match \
+            '([A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,})|BEGIN (RSA |EC |OPENSSH )?PRIVATE KEY|AKIA[0-9A-Z]{16}|xox[baprs]-|sk-[A-Za-z0-9_-]{20,}' \
+            $files; then
+            echo "Potential contact detail or secret detected."
+            exit 1
+          fi
+
+      - name: Confirm public artifact set
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -f README.md
+          test -f case-study.md
+          test -f assets/architecture.svg
+          test -f assets/validation.svg
+          test -f docs/technical-overview.md
+          test -f docs/disclosure-boundary.md

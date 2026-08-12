@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="300" viewBox="0 0 1200 300">
+<rect width="1200" height="300" fill="#f8fafc"/>
+<text x="60" y="56" font-family="Arial, sans-serif" font-size="24" font-weight="700" fill="#0f2744">VALIDATION EVIDENCE</text>
+<text x="60" y="86" font-family="Arial, sans-serif" font-size="15" fill="#52677d">Final maintained baseline · evidence-backed claims only</text>
+<g font-family="Arial, sans-serif">
+  <rect x="60" y="125" rx="12" width="315" height="112" fill="#edf7ed" stroke="#8fbf8f"/>
+  <text x="88" y="160" font-size="16" font-weight="700" fill="#276749">✓ REPOSITORY STANDARD</text>
+  <text x="88" y="190" font-size="14" fill="#334e68">Governance · JSON · shell lint</text>
+  <text x="88" y="214" font-size="14" fill="#334e68">Manifest · whitespace</text>
+
+  <rect x="442" y="125" rx="12" width="315" height="112" fill="#edf7ed" stroke="#8fbf8f"/>
+  <text x="470" y="160" font-size="16" font-weight="700" fill="#276749">✓ SECRET HISTORY SCAN</text>
+  <text x="470" y="190" font-size="14" fill="#334e68">Full Git history</text>
+  <text x="470" y="214" font-size="14" fill="#334e68">Credential-pattern checks</text>
+
+  <rect x="824" y="125" rx="12" width="315" height="112" fill="#edf7ed" stroke="#8fbf8f"/>
+  <text x="852" y="160" font-size="16" font-weight="700" fill="#276749">✓ eBPF + C++ BUILD</text>
+  <text x="852" y="190" font-size="14" fill="#334e68">Dependencies · compilation</text>
+  <text x="852" y="214" font-size="14" fill="#334e68">Generated artifact confirmation</text>
+</g>
+</svg>
