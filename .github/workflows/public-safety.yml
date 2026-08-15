@@ -70,7 +70,7 @@ jobs:
         run: |
           set -euo pipefail
           grep -Fq 'PUBLIC SHOWCASE · SANITIZED · PORTFOLIO-SAFE' README.md
-          grep -Fq 'Public vs. Private Repository Boundary' README.md
+          grep -Fiq 'Public vs. private repository boundary' README.md
           if git grep -EIn \
             -e 'private repository: https?://|BEGIN OPENSSH PRIV[A]TE KEY' \
             -- ':!.github/workflows/public-safety.yml'; then
