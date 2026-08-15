@@ -10,10 +10,12 @@ permissions:
 
 jobs:
   public-safety:
+    name: Validate disclosure-safe showcase
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     steps:
       - name: Checkout
-        uses: actions/checkout@v7
+        uses: actions/checkout@v4
 
       - name: Validate showcase manifest
         shell: bash
@@ -21,36 +23,66 @@ jobs:
           set -euo pipefail
           grep -q '^repository_class: public-showcase$' .osystic/repository.yml
           grep -q '^visibility: public$' .osystic/repository.yml
-          grep -q 'source_code_included: false' .osystic/repository.yml
-          grep -q 'contact_information_included: false' .osystic/repository.yml
+          grep -q '^  source_code_included: false$' .osystic/repository.yml
+          grep -q '^  contact_information_included: false$' .osystic/repository.yml
+
+      - name: Confirm required public artifacts
+        shell: bash
+        run: |
+          set -euo pipefail
+          required=(
+            README.md
+            case-study.md
+            SECURITY.md
+            NOTICE.md
+            assets/architecture.svg
+            assets/validation.svg
+            docs/technical-overview.md
+            docs/validation-evidence.md
+            docs/disclosure-boundary.md
+            .osystic/repository.yml
+          )
+          for path in "${required[@]}"; do
+            test -f "$path" || { echo "Missing required public artifact: $path"; exit 1; }
+          done
 
       - name: Scan for accidental contact details or secrets
         shell: bash
         run: |
           set -euo pipefail
-          files=$(find . -type f \
-            ! -path './.git/*' \
-            ! -name '*.pdf' \
-            ! -name '*.png' \
-            ! -name '*.jpg' \
-            ! -name '*.jpeg' \
-            ! -name '*.gif' \
-            ! -name '*.svg')
+          files=()
+          while IFS= read -r -d '' path; do
+            case "$path" in
+              *.pdf|*.png|*.jpg|*.jpeg|*.gif|*.svg) ;;
+              *) files+=("$path") ;;
+            esac
+          done < <(git ls-files -z)
 
-          if grep -EIn --binary-files=without-match \
-            '([A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,})|BEGIN (RSA |EC |OPENSSH )?PRIVATE KEY|AKIA[0-9A-Z]{16}|xox[baprs]-|sk-[A-Za-z0-9_-]{20,}' \
-            $files; then
+          if ((${#files[@]})) && grep -EIn --binary-files=without-match \
+            '([A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,})|BEGIN (RSA |EC |OPENSSH )?PRIVATE KEY|AKIA[0-9A-Z]{16}|gh[pousr]_[A-Za-z0-9]{20,}|xox[baprs]-[A-Za-z0-9-]{10,}|sk-[A-Za-z0-9_-]{20,}' \
+            "${files[@]}"; then
             echo "Potential contact detail or secret detected."
             exit 1
           fi
 
-      - name: Confirm public artifact set
+      - name: Confirm disclosure boundary
         shell: bash
         run: |
           set -euo pipefail
-          test -f README.md
-          test -f case-study.md
-          test -f assets/architecture.svg
-          test -f assets/validation.svg
-          test -f docs/technical-overview.md
-          test -f docs/disclosure-boundary.md
+          grep -Fq 'PUBLIC SHOWCASE · SANITIZED · PORTFOLIO-SAFE' README.md
+          grep -Fiq 'Public vs. private repository boundary' README.md
+          if git grep -EIn \
+            -e 'private repository: https?://|BEGIN OPENSSH PRIV[A]TE KEY' \
+            -- ':!.github/workflows/public-safety.yml'; then
+            echo 'Potential disclosure-boundary violation detected.'
+            exit 1
+          fi
+
+      - name: Reject implementation source extensions
+        shell: bash
+        run: |
+          set -euo pipefail
+          if git ls-files | grep -E '\.(pine|py|js|ts|cpp|c|h)$'; then
+            echo 'Implementation source file detected in public showcase.'
+            exit 1
+          fi
