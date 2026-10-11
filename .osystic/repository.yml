@@ -27,3 +27,14 @@ delivery:
   default_branch: main
   ci_required: true
   production_environment: false
+
+project:
+  key: ebpf-security-system-pi
+  name: Raspberry Pi 5 eBPF Security Monitoring
+  status: completed
+
+website:
+  eligible: true
+  status: ready-for-review
+  canonical_slug: ebpf-security-system-pi
+  auto_sync: true
